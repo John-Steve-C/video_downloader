@@ -1,0 +1,11 @@
+name: video-download
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - ffmpeg
+  - deno
+  - pip
+  - pip:
+      - yt-dlp[default]
+      - playwright
