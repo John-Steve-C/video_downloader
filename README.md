@@ -27,3 +27,23 @@ For a video page, Chrome opens and watches network responses for up to 30 second
 By default, the MP4 is saved under `./downloads/` with the video title and ID in its filename. The script downloads one video per invocation, even if the page URL belongs to a playlist. It prefers MP4 video plus M4A audio; when those are unavailable, it tries other available video/audio formats or a combined stream, then converts the result to MP4 if needed. Conversion may take time and can reduce quality. To skip browser discovery for any URL, run `python download_video.py URL` directly.
 
 Discovery only sees HLS requests made while Chrome is open. Chrome uses a temporary profile, so your usual Chrome cookies and extensions are not available. Some sites require a login, cookies, or other headers to download a discovered URL; DRM-protected videos are not supported. Download only videos you have permission to save. If a site changes and extraction fails, update the package with `python -m pip install -U "yt-dlp[default]"` in the activated environment.
+
+## Install in WSL
+
+If you're installing `playwright` library in WSL, you need to also install the chorinum kernel (to open the browser) and some linux dependent libraries:
+
+```sh
+python -m playwright install-deps chromium
+
+sudo apt update
+sudo apt install -y libnspr4 libnss3 libasound2t64
+```
+
+And remove previous `channel="chrome"` parameter, only keep this in [code](./find_hls.py#L20)
+
+```python
+browser = p.chromium.launch(
+    channel="chrome",   # remove this if using WSL
+    headless=True
+)
+```

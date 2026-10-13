@@ -17,7 +17,8 @@ def find_hls_url(page_url, timeout_seconds=30, headless=False):
             found.append(response.url)
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(channel="chrome", headless=headless)
+        browser = playwright.chromium.launch(headless=headless) # channel="chrome", remove this if using WSL
+
         try:
             context = browser.new_context()
             context.on("response", on_response)
